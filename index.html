@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AppForge AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { font-family: Arial; background: #121212; color: white; text-align: center; }
+input, button { padding: 10px; margin: 5px; border-radius: 10px; border: none; }
+button { background: #00c853; color: white; }
+img { max-width: 90%; margin-top: 10px; }
+#chatBox { height: 300px; overflow-y: scroll; border: 1px solid #333; padding: 10px; }
+</style>
+</head>
+
+<body>
+
+<h2>AppForge AI 🤖</h2>
+
+<div id="chatBox"></div>
+
+<input id="userInput" placeholder="Type message...">
+<button onclick="sendMessage()">Send</button>
+
+<hr>
+
+<h3>Image Generator 🎨</h3>
+<input id="imgPrompt" placeholder="Enter image prompt">
+<button onclick="generateImage()">Generate</button>
+<br>
+<img id="resultImg">
+
+<script>
+function sendMessage() {
+  let input = document.getElementById("userInput").value;
+  let chat = document.getElementById("chatBox");
+  
+  chat.innerHTML += "<p>🧑: " + input + "</p>";
+  
+  setTimeout(() => {
+    chat.innerHTML += "<p>🤖: This is AI response (connect API later)</p>";
+  }, 1000);
+}
+
+function generateImage() {
+  let prompt = document.getElementById("imgPrompt").value;
+  let img = document.getElementById("resultImg");
+
+  img.src = "https://via.placeholder.com/300?text=" + prompt;
+}
+</script>
+
+</body>
+  </html>
