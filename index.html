@@ -30,13 +30,15 @@ img { max-width: 90%; margin-top: 10px; }
 <img id="resultImg">
 
 <script>
-const API_KEY = AIzaSyCKUQQP6yu8dw71DxF-Bu5MpCQ7nmAjCuw
+
 
 async function sendMessage() {
   let input = document.getElementById("userInput").value;
   let chat = document.getElementById("chatBox");
 
   if (!input.trim()) return;
+
+  const API_KEY = "AIzaSyCKUQQP6yu8dw71DxF-Bu5MpCQ7nmAjCuw";
 
   chat.innerHTML += "<p>🧑: " + input + "</p>";
 
