@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AppForge AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body { font-family: Arial; background: #121212; color: white; text-align: center; }
+input, button { padding: 10px; margin: 5px; border-radius: 10px; border: none; }
+button { background: #00c853; color: white; cursor: pointer; }
+img { max-width: 90%; margin-top: 10px; }
+#chatBox { height: 300px; overflow-y: auto; border: 1px solid #333; padding: 10px; text-align: left; }
+</style>
+
+</head>
+
+<body>
+
+<h2>AppForge AI 🤖</h2>
+
+<div id="chatBox"></div>
+
+<input id="userInput" placeholder="Type message...">
+<button onclick="sendMessage()">Send</button>
+
+<hr>
+
+<h3>Image Generator 🎨</h3>
+<input id="imgPrompt" placeholder="Enter image prompt">
+<button onclick="generateImage()">Generate</button>
+<br>
+<img id="resultImg">
+
+<script>
+
+const API_KEY ="AIzaSyCKUQQP6yu8dw71DxF-Bu5MpCQ7nmAjCuw";
+
+async function sendMessage() {
+  let input = document.getElementById("userInput").value;
+  let chat = document.getElementById("chatBox");
+
+  if (!input.trim()) return;
+
+  chat.innerHTML += "<p>🧑: " + input + "</p>";
+
+  try {
+    let response = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [{ text: input }]
+            }
+          ]
+        })
+      }
+    );
+
+    let data = await response.json();
+
+    if (!response.ok) {
+      chat.innerHTML += "<p>❌ Error: " + (data.error?.message || "API Error") + "</p>";
+      return;
+    }
+
+    let reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!reply) {
+      chat.innerHTML += "<p>❌ No response from AI</p>";
+      return;
+    }
+
+    chat.innerHTML += "<p>🤖: " + reply + "</p>";
+
+  } catch (error) {
+    chat.innerHTML += "<p>❌ Network error</p>";
+  }
+}
+
+function generateImage() {
+  let prompt = document.getElementById("imgPrompt").value;
+  let img = document.getElementById("resultImg");
+
+  if (!prompt.trim()) return;
+
+  img.src = "https://via.placeholder.com/400?text=" + encodeURIComponent(prompt);
+}
+</script>
+
+</body>
+</html>
